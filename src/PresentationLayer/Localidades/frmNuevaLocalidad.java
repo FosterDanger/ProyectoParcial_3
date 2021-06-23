@@ -1,0 +1,353 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package PresentationLayer.Localidades;
+
+import BusinessModelLayer.Entidad;
+import BusinessModelLayer.Localidad;
+import BusinessModelLayer.Municipio;
+import java.awt.event.ItemEvent;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
+/**
+ *
+ * @author FOSTER
+ */
+public class frmNuevaLocalidad extends javax.swing.JDialog {
+
+    int idLocalidad = 0;
+    String Localidad;
+    private String v;
+    private String v2;
+    private Localidad localidad = new Localidad();
+    private Municipio municipio = new Municipio();
+    private Entidad entidad = new Entidad();
+    private ArrayList<Integer> idMunicipio = new ArrayList<>();
+    private ArrayList<Integer> idEntidad = new ArrayList<>();
+
+    public frmNuevaLocalidad(java.awt.Frame parent, boolean modal) {
+        super(parent, modal);
+        initComponents();
+    }
+
+    public frmNuevaLocalidad() {
+        initComponents();
+        //llenarMunicipio();
+        llenarEntidad();
+        cobEntidadd.addItemListener(event -> {
+
+            if (event.getStateChange() == ItemEvent.SELECTED) {
+                cobMunicipio.removeAllItems();
+                v2 = (event.getItem().toString());
+                llenarMunicipio();
+                municipio.Row(v2);
+            }
+        });
+
+        v2 = cobEntidadd.getSelectedItem().toString();
+        localidad.Row(v2);
+        llenarMunicipio();
+
+        cobMunicipio.addItemListener(event -> {
+
+            if (event.getStateChange() == ItemEvent.SELECTED) {
+
+                v = (event.getItem().toString());
+
+                localidad.Row(v);
+
+            } else {
+                /*
+            v = cobEntidad.getSelectedItem().toString();
+                 System.out.println(municipio.Row(v).get(0));
+                 */
+            }
+        });
+
+        //cboFar();
+        v = cobMunicipio.getSelectedItem().toString();
+    }
+
+    public frmNuevaLocalidad(int idLocalidad, String Localiadd, String municipios) {
+        initComponents();
+        this.Localidad = Localiadd;
+        this.idLocalidad = idLocalidad;
+        localidad.setIdLocalidad(idLocalidad);
+        localidad.GetById();
+        txtNombre.setText(localidad.getLocalidad());
+        llenarEntidad();
+
+        cobEntidadd.addItemListener(event -> {
+            cobMunicipio.removeAllItems();
+            if (event.getStateChange() == ItemEvent.SELECTED) {
+
+                v2 = (event.getItem().toString());
+
+                llenarMunicipio();
+
+                //System.out.println( idEntidad = municipio.Row(v));
+            }
+        });
+
+        cobEntidadd.setSelectedItem(localidad.Row3(this.Localidad).get(0));
+        v2 = cobEntidadd.getSelectedItem().toString();
+        llenarMunicipio();
+
+        cobMunicipio.addItemListener(event -> {
+
+            if (event.getStateChange() == ItemEvent.SELECTED) {
+
+                v = (event.getItem().toString());
+
+                localidad.Row(v);
+
+            } else {
+                /*
+            v = cobEntidad.getSelectedItem().toString();
+                 System.out.println(municipio.Row(v).get(0));
+                 */
+            }
+        });
+
+        cobMunicipio.setSelectedItem(municipios);
+    }
+
+    /*
+    public void llenarMunicipio() {
+        DefaultTableModel res = localidad.GetA(v2);
+        // DefaultTableModel res2 = municipio.GetAllModel();
+        for (int i = 0; i < res.getRowCount(); i++) {
+            cobMunicipio.addItem(String.valueOf(res.getValueAt(i, 1)));
+            idMunicipio.add(Integer.parseInt(String.valueOf(res.getValueAt(i, 0))));
+        }
+    }
+    
+     */
+    public void llenarMunicipio() {
+        // cboFar.addItem("" + producto.co().get(0));
+        for (int i = 0; i < localidad.Row2(v2).size(); i++) {
+            cobMunicipio.addItem(localidad.Row2(v2).get(i).toString());
+
+        }
+    }
+
+    public void llenarEntidad() {
+        DefaultTableModel res = entidad.GetAllModel();
+        // DefaultTableModel res2 = municipio.GetAllModel();
+        for (int i = 0; i < res.getRowCount(); i++) {
+            cobEntidadd.addItem(String.valueOf(res.getValueAt(i, 1)));
+            idEntidad.add(Integer.parseInt(String.valueOf(res.getValueAt(i, 0))));
+        }
+    }
+
+    /*
+    public void cboFar() {
+        DefaultTableModel res = categorias.GetAllModel();
+        for (int i = 0; i < res.getRowCount(); i++) {
+            cboCat.addItem(String.valueOf(res.getValueAt(i, 1)));
+            idCategoria.add(Integer.parseInt(String.valueOf(res.getValueAt(i, 0))));
+        }
+    }
+     */
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        jLabel1 = new javax.swing.JLabel();
+        txtNombre = new javax.swing.JTextField();
+        btnOk = new javax.swing.JButton();
+        btnCancelar = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        cobMunicipio = new javax.swing.JComboBox<>();
+        jLabel3 = new javax.swing.JLabel();
+        cobEntidadd = new javax.swing.JComboBox<>();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setModal(true);
+
+        jLabel1.setText("Localidad:");
+
+        btnOk.setText("Guardar");
+        btnOk.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOkActionPerformed(evt);
+            }
+        });
+
+        btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setText("Municipio:");
+
+        jLabel3.setText("Entidad:");
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(48, 48, 48)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtNombre))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(cobMunicipio, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addGap(13, 13, 13)
+                                .addComponent(cobEntidadd, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(82, 82, 82)
+                        .addComponent(btnOk)
+                        .addGap(52, 52, 52)
+                        .addComponent(btnCancelar)))
+                .addGap(0, 59, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(9, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(cobEntidadd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(cobMunicipio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnOk)
+                    .addComponent(btnCancelar))
+                .addGap(14, 14, 14))
+        );
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void btnOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOkActionPerformed
+        // TODO add your handling code here:
+        // java.sql.Date date = new java.sql.Date(jDateChooser.getDate().getTime());
+
+        if (localidad.getIdLocalidad() > 0) {
+            localidad.setIdMunicipio((int) localidad.Row(v).get(0));
+            localidad.setLocalidad(txtNombre.getText());
+            if (localidad.Update()) {
+                JOptionPane.showMessageDialog(null, "Localidad actualizada correctamente");
+                this.dispose();
+            }
+        } else {
+            if (new Localidad(0,
+                    (int) localidad.Row(v).get(0),
+                    txtNombre.getText()).Add()) {
+                JOptionPane.showMessageDialog(null, "Localidad agregada correctamente!");
+                this.dispose();
+            }
+
+        }
+    }//GEN-LAST:event_btnOkActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_btnCancelarActionPerformed
+
+//Este metodo agrega los datos del metodo RowData que retorna un arraylist y los coloca en el combo box.
+    /*
+    public void cboFar() {
+        // cboFar.addItem("" + producto.co().get(0));
+        for (int i = 0; i < producto.RowData().size(); i++) {
+            cboFar.addItem("" + "Far" + " " + producto.RowData().get(i));
+        }
+    }
+     */
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(frmNuevaLocalidad.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(frmNuevaLocalidad.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(frmNuevaLocalidad.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(frmNuevaLocalidad.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+
+        /* Create and display the dialog */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                frmNuevaLocalidad dialog = new frmNuevaLocalidad(new javax.swing.JFrame(), true);
+                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent e) {
+                        System.exit(0);
+                    }
+                });
+                dialog.setVisible(true);
+            }
+        });
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCancelar;
+    private javax.swing.JButton btnOk;
+    private javax.swing.JComboBox<String> cobEntidadd;
+    private javax.swing.JComboBox<String> cobMunicipio;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JTextField txtNombre;
+    // End of variables declaration//GEN-END:variables
+}
